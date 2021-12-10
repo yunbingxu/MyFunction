@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 
-static int8_t makeStarStr(char* str, uint8_t nb)
+static int makeStarStr(char* str, uint8_t nb)
 {
     int8_t i = 0;
     for (i = 0; i < nb; i++) {
@@ -12,8 +12,7 @@ static int8_t makeStarStr(char* str, uint8_t nb)
     return 0;
 }
 
-
-static int8_t makeInfoStr(char* str, uint8_t nb)
+static int makeInfoStr(char* str, uint8_t nb)
 {
     int8_t  i   = 0;
     uint8_t len = strlen(str);
@@ -26,8 +25,7 @@ static int8_t makeInfoStr(char* str, uint8_t nb)
     return 0;
 }
 
-
-int8_t printAppInfo(const char* szName, const char* szVersion)
+int printAppInfo(const char* szName, const char* szVersion)
 {
     char strStars[128]   = {0};
     char strAppInfo[128] = {0};

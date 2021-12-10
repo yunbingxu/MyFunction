@@ -1,19 +1,46 @@
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
+#include <time.h>
+
+#include "usr_public.h"
 
 
-/* 两数交换*/
-#ifndef sswap
-#    define sswap(x, y)                                                                            \
-        {                                                                                          \
-            (x) ^= (y);                                                                            \
-            (y) ^= (x);                                                                            \
-            (x) ^= (y);                                                                            \
-        }
-#endif
+/* 返回 [min,max) 随机数 */
+int randNum(int min, int max)
+{
+    srand((unsigned)time(NULL) + rand());
+    return min + rand() % (max - min);
+}
 
+
+/* 动态创建char型二维数组 */
+char** charArray(uint16_t rows, uint16_t cols)
+{
+    uint16_t i;
+
+    char** arr = (char**)malloc(rows * sizeof(char*));
+    for (i = 0; i < rows; i++) {
+        arr[i] = (char*)calloc(cols, sizeof(char));
+    }
+
+    return arr;
+}
+
+
+/* 释放动态char型二维数组 */
+int freeCharArray(char** arr, uint16_t rows)
+{
+    uint16_t i;
+
+    for (i = 0; i < rows; i++) {
+        USR_FREE(arr[i]);
+    }
+    USR_FREE(arr);
+
+    return 0;
+}
+
+
+/* 字符串数字的倍率转换 */
 int numstrScalerDeal(char* szNum, int scaler, int type)
 {
     uint8_t i;
@@ -51,7 +78,7 @@ int numstrScalerDeal(char* szNum, int scaler, int type)
             }
         }
         for (i = 0; i < scaler; i++) {
-            sswap(szNum[pos], szNum[pos - 1]);
+            USR_SWAP(szNum[pos], szNum[pos - 1]);
             pos--;
         }
     }
@@ -61,11 +88,10 @@ int numstrScalerDeal(char* szNum, int scaler, int type)
                 szNum[pos + 1] = '0';
                 szNum[pos + 2] = '\0';
             }
-            sswap(szNum[pos], szNum[pos + 1]);
+            USR_SWAP(szNum[pos], szNum[pos + 1]);
             pos++;
         }
     }
-
     /* 处理末尾多余的零 */
     len = strlen(szNum);
     while (szNum[len - 1] == '0' || szNum[len - 1] == '.') {

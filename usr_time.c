@@ -1,10 +1,9 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 
+#include "usr_public.h"
 
-#define TIME_STR_LEN 19 // "YYYY-MM-DD HH:MM:SS" 不含结束符
 
 time_t timeStr2Second(const char* str)
 {
@@ -27,7 +26,28 @@ time_t timeStr2Second(const char* str)
         return 0;
     }
     cur_tm.tm_year -= 1900;
-    cur_tm.tm_mon  -= 1;
+    cur_tm.tm_mon -= 1;
 
     return mktime(&cur_tm);
+}
+
+
+char* second2TimeStr(time_t sec)
+{
+    static char timeStr[24];
+    struct tm   cur_tm;
+
+    memset(timeStr, 0, sizeof(timeStr));
+    memcpy(&cur_tm, localtime(&sec), sizeof(struct tm));
+
+    sprintf(timeStr,
+            "%04d-%02d-%02d %02d:%02d:%02d",
+            cur_tm.tm_year + 1900,
+            cur_tm.tm_mon + 1,
+            cur_tm.tm_mday,
+            cur_tm.tm_hour,
+            cur_tm.tm_min,
+            cur_tm.tm_sec);
+
+    return timeStr;
 }
