@@ -5,7 +5,15 @@
 #include <stdint.h>
 
 
+#ifndef TRUE
+#define TRUE (1)
+#endif
+#ifndef FALSE
+#define FALSE (0)
+#endif
+
 #define TIME_STR_LEN    19 /* "YYYY-MM-DD HH:MM:SS" 不含结束符 */
+
 #define USR_FREE(p)     do { if (p) { free(p); p = NULL; } } while (0)
 #define USR_SWAP(a, b)  do { typeof(a) tmp = a; a = b; b = tmp; } while (0)
 
