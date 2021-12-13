@@ -9,7 +9,7 @@
  * 修改简要说明：参考开源easylogger做简化
  * 其他：win32下依赖pthread
 ***********************************************************************************/
-#include "slog.h"
+#include "usr_public.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -100,7 +100,7 @@ typedef struct _logger_cfg
     char file_name[64];      /* file name */
     FILE *log_file;          /* log file pointer */
     SLOG_MUTEX mtx;          /* mutex for safety */
-    slog_level filter_level; /* output levle control*/
+    slogLevel filter_level; /* output levle control*/
     int inited;              /* initial flag*/
     size_t max_size;         /* file max size */
     int max_rotate;          /* max rotate file count */
@@ -163,7 +163,7 @@ static void _get_curr_time(int timestr_size, char timestr[])
              curr_time->tm_hour, curr_time->tm_min, curr_time->tm_sec);
 }
 
-static char* _get_level_str(slog_level level)
+static char* _get_level_str(slogLevel level)
 {
     switch (level)
     {
@@ -220,7 +220,7 @@ static void _slog_file_rotate(void)
 //logdir :log file path
 //filename：log file name
 //level：log output level
-int slog_init(const char* log_dir, const char* file_name, slog_level level)
+int SLOG_init(const char* log_dir, const char* file_name, slogLevel level)
 {
     char log_filepath[MAX_FILE_PATH] = {0};
 
@@ -249,7 +249,7 @@ int slog_init(const char* log_dir, const char* file_name, slog_level level)
     return TRUE;
 }
 
-void write_log(slog_level level, int braw, const char *func_name, int line, const char *fmt, ...)
+void write_log(slogLevel level, int braw, const char *func_name, int line, const char *fmt, ...)
 {
     va_list     args;
     char*       level_str                 = NULL;

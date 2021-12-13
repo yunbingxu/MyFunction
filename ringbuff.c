@@ -1,13 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "ringbuff.h"
-
 #include "usr_public.h"
-
-
-/* 全局变量 */
-RingBuff_t g_ringBuff;
 
 
 /* 环形队列初始化 */
