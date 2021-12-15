@@ -56,6 +56,7 @@
         "cbcom698s.h": "c",
         "dbc_interface.h": "c",
         "app_config.h": "c",
-        "ringbuff.h": "c"
+        "ringbuff.h": "c",
+        "limits": "c"
     }, // 格式化时调整include的顺序（按字母排序）
 }

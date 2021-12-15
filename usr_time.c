@@ -4,6 +4,16 @@
 #include "usr_public.h"
 
 
+/* 返回当前时间结构体 */
+tms_t currentTime(time_t curSec)
+{
+    tms_t  tm_now;
+    memcpy(tm_now, localtime(&curSec), sizeof(tms_t));
+
+    return tm_now;
+}
+
+
 time_t timeStr2Second(const char* str)
 {
     struct tm cur_tm;
