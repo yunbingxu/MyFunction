@@ -94,16 +94,15 @@
 
 #define SLOG_MUTEX pthread_mutex_t
 
-typedef struct _logger_cfg
-{
-    char file_path[128];     /* file path */
-    char file_name[64];      /* file name */
-    FILE *log_file;          /* log file pointer */
-    SLOG_MUTEX mtx;          /* mutex for safety */
-    slogLevel filter_level; /* output levle control*/
-    int inited;              /* initial flag*/
-    size_t max_size;         /* file max size */
-    int max_rotate;          /* max rotate file count */
+typedef struct _logger_cfg {
+    char        file_path[128]; /* file path */
+    char        file_name[64];  /* file name */
+    FILE*       log_file;       /* log file pointer */
+    SLOG_MUTEX  mtx;            /* mutex for safety */
+    SlogLevel_e filter_level;   /* output levle control*/
+    int         inited;         /* initial flag*/
+    size_t      max_size;       /* file max size */
+    int         max_rotate;     /* max rotate file count */
 } logger_cfg;
 
 static logger_cfg g_logger_cfg =
@@ -163,7 +162,7 @@ static void _get_curr_time(int timestr_size, char timestr[])
              curr_time->tm_hour, curr_time->tm_min, curr_time->tm_sec);
 }
 
-static char* _get_level_str(slogLevel level)
+static char* _get_level_str(SlogLevel_e level)
 {
     switch (level)
     {
@@ -220,7 +219,7 @@ static void _slog_file_rotate(void)
 //logdir :log file path
 //filename：log file name
 //level：log output level
-int SLOG_init(const char* log_dir, const char* file_name, slogLevel level)
+int SLOG_init(const char* log_dir, const char* file_name, SlogLevel_e level)
 {
     char log_filepath[MAX_FILE_PATH] = {0};
 
@@ -249,7 +248,7 @@ int SLOG_init(const char* log_dir, const char* file_name, slogLevel level)
     return TRUE;
 }
 
-void write_log(slogLevel level, int braw, const char *func_name, int line, const char *fmt, ...)
+void write_log(SlogLevel_e level, int braw, const char *func_name, int line, const char *fmt, ...)
 {
     va_list     args;
     char*       level_str                 = NULL;

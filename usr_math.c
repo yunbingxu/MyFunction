@@ -12,22 +12,55 @@ int randNum(int min, int max)
 }
 
 
-/* 动态创建char型二维数组 */
-char** charArray(uint16_t rows, uint16_t cols)
+static int mallocArray2D(uint16_t rows, uint16_t cols, uint8_t typeSize)
 {
-    uint16_t i;
+    uint16_t i = 0;
 
-    char** arr = (char**)malloc(rows * sizeof(char*));
+    void** arr = malloc(rows * cols * sizeof(void*));
+    if (arr == NULL) {
+        SLOG_WARN("mallocArray2D: malloc failed!\n");
+        return (-1);
+    }
+
     for (i = 0; i < rows; i++) {
-        arr[i] = (char*)calloc(cols, sizeof(char));
+        arr[i] = malloc(cols * typeSize);
+        if (arr[i] == NULL) {
+            SLOG_WARN("mallocArray2D: malloc failed!\n");
+            return (-1);
+        }
+        memset(arr[i], 0, cols * typeSize);
     }
 
     return arr;
 }
 
 
-/* 释放动态char型二维数组 */
-int freeCharArray(char** arr, uint16_t rows)
+/* 动态创建二维数组,ArrayTypr:0-char 1-int 2-float */
+void** array2D(uint16_t rows, uint16_t cols, ArrayType_e type)
+{
+    void** arr = NULL;
+
+    switch(type)
+    {
+    case TYPE_CHAR:
+        arr = mallocArray2D(rows, cols, sizeof(char));
+        break;
+    case TYPE_INT:
+        arr = mallocArray2D(rows, cols, sizeof(int));
+        break;
+    case TYPE_FLOAT:
+        arr = mallocArray2D(rows, cols, sizeof(float));
+        break;
+    default:
+        break;
+    }
+
+    return arr;
+}
+
+
+/* 释放动态二维数组 */
+int freeArray2D(void** arr, uint16_t rows)
 {
     uint16_t i;
 

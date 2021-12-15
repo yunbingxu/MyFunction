@@ -30,10 +30,21 @@ extern int printAppInfo(const char* szName, const char* szVersion);
 
 /***************************************************************************************/
 
+/* 文件 */
+extern const char* fileContent(const char* path);
+
+/***************************************************************************************/
+
 /* 数学 */
+typedef enum {
+    TYPE_CHAR,
+    TYPE_INT,
+    TYPE_FLOAT
+} ArrayType_e;
+
 extern int    randNum(int min, int max);
-extern char** charArray(uint16_t rows, uint16_t cols);
-extern int    freeCharArray(char** arr, uint16_t rows);
+extern void** array2D(uint16_t rows, uint16_t cols, ArrayType_e type);
+extern int    freeArray2D(void** arr, uint16_t rows);
 
 /***************************************************************************************/
 
@@ -74,24 +85,24 @@ typedef enum {
     S_INFO  = 3,
     S_WARN  = 4,
     S_ERROR = 5
-} slogLevel;
+} SlogLevel_e;
 
 /* 注意：目录目前只能自动新建一级文件夹 */
-int SLOG_init(const char* log_dir, const char* file_name, slogLevel level);
+int SLOG_init(const char* log_dir, const char* file_name, SlogLevel_e level);
 
 /* 注意：接口一次输出的内容最大长度约为10KB，超出长度会发生截断。通过MAX_LOG_LINE宏可修改最大长度 */
-void write_log(slogLevel level, int braw, const char* func_name, int line, const char* fmt, ...);
+void write_log(SlogLevel_e level, int braw, const char* func_name, int line, const char* fmt, ...);
 
 #define SLOG_ERROR(fmt, ...) write_log(S_ERROR, 0, __FUNCTION__, __LINE__, fmt, ##__VA_ARGS__)
-#define SLOG_WARN(fmt, ...) write_log(S_WARN, 0, __FUNCTION__, __LINE__, fmt, ##__VA_ARGS__)
-#define SLOG_INFO(fmt, ...) write_log(S_INFO, 0, __FUNCTION__, __LINE__, fmt, ##__VA_ARGS__)
+#define SLOG_WARN(fmt, ...)  write_log(S_WARN, 0, __FUNCTION__, __LINE__, fmt, ##__VA_ARGS__)
+#define SLOG_INFO(fmt, ...)  write_log(S_INFO, 0, __FUNCTION__, __LINE__, fmt, ##__VA_ARGS__)
 #define SLOG_DEBUG(fmt, ...) write_log(S_DEBUG, 0, __FUNCTION__, __LINE__, fmt, ##__VA_ARGS__)
 #define SLOG_TRACE(fmt, ...) write_log(S_TRACE, 0, __FUNCTION__, __LINE__, fmt, ##__VA_ARGS__)
 #define SLOG_ERROR(fmt, ...) write_log(S_ERROR, 0, __FUNCTION__, __LINE__, fmt, ##__VA_ARGS__)
 
 #define SLOG_ERROR_RAW(fmt, ...) write_log(S_ERROR, 1, __FUNCTION__, __LINE__, fmt, ##__VA_ARGS__)
-#define SLOG_WARN_RAW(fmt, ...) write_log(S_WARN, 1, __FUNCTION__, __LINE__, fmt, ##__VA_ARGS__)
-#define SLOG_INFO_RAW(fmt, ...) write_log(S_INFO, 1, __FUNCTION__, __LINE__, fmt, ##__VA_ARGS__)
+#define SLOG_WARN_RAW(fmt, ...)  write_log(S_WARN, 1, __FUNCTION__, __LINE__, fmt, ##__VA_ARGS__)
+#define SLOG_INFO_RAW(fmt, ...)  write_log(S_INFO, 1, __FUNCTION__, __LINE__, fmt, ##__VA_ARGS__)
 #define SLOG_DEBUG_RAW(fmt, ...) write_log(S_DEBUG, 1, __FUNCTION__, __LINE__, fmt, ##__VA_ARGS__)
 #define SLOG_TRACE_RAW(fmt, ...) write_log(S_TRACE, 1, __FUNCTION__, __LINE__, fmt, ##__VA_ARGS__)
 

@@ -4,7 +4,7 @@
 
 
 /* 读取文件，返回字符串，由调用者释放 */
-char* getFileContent(const char* path)
+const char* fileContent(const char* path)
 {
     uint32_t fileSize = 0;
     char*    content  = NULL;
